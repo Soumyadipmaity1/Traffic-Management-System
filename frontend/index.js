@@ -1,7 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Tab switching functionality
+    // Enhanced Tab Switching with Indicator Animation
     const tabButtons = document.querySelectorAll('.tab-btn');
     const tabPanes = document.querySelectorAll('.tab-pane');
+    const tabContainer = document.querySelector('.tabs');
     
     tabButtons.forEach(button => {
         button.addEventListener('click', () => {
@@ -12,11 +13,17 @@ document.addEventListener('DOMContentLoaded', function() {
             // Add active class to clicked button
             button.classList.add('active');
             
+            // Set data attribute for tab indicator animation
+            tabContainer.setAttribute('data-active-tab', button.getAttribute('data-tab'));
+            
             // Show corresponding pane
             const tabId = button.getAttribute('data-tab');
             document.getElementById(tabId).classList.add('active');
         });
     });
+    
+    // Set initial active tab
+    tabContainer.setAttribute('data-active-tab', 'liveCamera');
     
     // Login Modal Functionality
     const loginBtn = document.getElementById('loginBtn');
@@ -271,80 +278,64 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 2000);
     });
     
-    function updateResults(data) {
-        // In a real application, these values would come from your backend
-        // Here we're just generating random values for demonstration
+    // Add subtle animations to result meters on load
+    function animateResults() {
+        // Animate risk meter fill
+        const riskMeter = document.querySelector('#accidentRisk .meter-fill');
+        if (riskMeter) {
+            const width = riskMeter.style.width;
+            riskMeter.style.width = '0';
+            setTimeout(() => { riskMeter.style.width = width; }, 300);
+        }
         
-        // Update accident risk
-        const riskPercent = Math.floor(Math.random() * 100);
-        document.querySelector('#accidentRisk .meter-fill').style.width = `${riskPercent}%`;
-        document.querySelector('#accidentRisk .risk-value').textContent = `${riskPercent}%`;
-        
-        let riskStatus = 'Low Risk';
-        if (riskPercent > 75) riskStatus = 'High Risk';
-        else if (riskPercent > 50) riskStatus = 'Moderate Risk';
-        else if (riskPercent > 25) riskStatus = 'Low Risk';
-        document.querySelector('#accidentRisk .risk-status').textContent = riskStatus;
-        
-        // Update vehicle counts
-        if (data.source === 'manualEntry') {
-            // Use provided values if available
-            const cars = data.carCount || '0';
-            const trucks = data.truckCount || '0';
-            const buses = data.busCount || '0';
-            const bikes = data.bikeCount || '0';
-            const total = parseInt(cars) + parseInt(trucks) + parseInt(buses) + parseInt(bikes);
+        // Animate numbers with counting effect
+        document.querySelectorAll('.count, .risk-value, .gauge-value').forEach(el => {
+            const finalValue = el.textContent;
+            const duration = 1500;
+            const frameRate = 30;
+            const increment = parseInt(finalValue) / (duration / frameRate);
             
-            document.querySelectorAll('#vehicleCount .vehicle-stat')[0].querySelector('.count').textContent = cars;
-            document.querySelectorAll('#vehicleCount .vehicle-stat')[1].querySelector('.count').textContent = trucks;
-            document.querySelectorAll('#vehicleCount .vehicle-stat')[2].querySelector('.count').textContent = buses;
-            document.querySelectorAll('#vehicleCount .vehicle-stat')[3].querySelector('.count').textContent = bikes;
-            document.querySelector('#vehicleCount .total span:last-child').textContent = total;
-        } else {
-            // Generate random values
-            const cars = Math.floor(Math.random() * 50);
-            const trucks = Math.floor(Math.random() * 10);
-            const buses = Math.floor(Math.random() * 5);
-            const bikes = Math.floor(Math.random() * 20);
-            const total = cars + trucks + buses + bikes;
-            
-            document.querySelectorAll('#vehicleCount .vehicle-stat')[0].querySelector('.count').textContent = cars;
-            document.querySelectorAll('#vehicleCount .vehicle-stat')[1].querySelector('.count').textContent = trucks;
-            document.querySelectorAll('#vehicleCount .vehicle-stat')[2].querySelector('.count').textContent = buses;
-            document.querySelectorAll('#vehicleCount .vehicle-stat')[3].querySelector('.count').textContent = bikes;
-            document.querySelector('#vehicleCount .total span:last-child').textContent = total;
-        }
-        
-        // Update speed estimation
-        let speed;
-        if (data.source === 'manualEntry' && data.avgSpeed) {
-            speed = parseInt(data.avgSpeed);
-        } else {
-            speed = Math.floor(Math.random() * 100);
-        }
-        
-        document.querySelector('#speedEstimation .gauge-value').textContent = speed;
-        
-        let speedMessage = 'Average traffic speed is within limit';
-        if (speed > 80) speedMessage = 'Average traffic speed is above limit';
-        else if (speed < 20) speedMessage = 'Traffic is moving very slowly';
-        document.querySelector('#speedEstimation .card-content p').textContent = speedMessage;
-        
-        // Update stop alert
-        const showAlert = Math.random() > 0.5;
-        const alertCard = document.getElementById('stopAlert');
-        
-        if (showAlert) {
-            alertCard.style.display = 'block';
-            if (riskPercent > 70) {
-                document.querySelector('#stopAlert .alert-text').textContent = 'High Accident Risk';
-                document.querySelector('#stopAlert .card-content p').textContent = 'Immediate traffic control recommended';
-            } else {
-                document.querySelector('#stopAlert .alert-text').textContent = 'Congestion Detected';
-                document.querySelector('#stopAlert .card-content p').textContent = `Traffic flow restriction recommended at ${data.location.split(',')[0]}`;
-            }
-        } else {
-            alertCard.style.display = 'none';
-        }
+            let current = 0;
+            const counter = setInterval(() => {
+                current += increment;
+                if (current >= parseInt(finalValue)) {
+                    el.textContent = finalValue;
+                    clearInterval(counter);
+                } else {
+                    el.textContent = Math.floor(current);
+                }
+            }, frameRate);
+        });
     }
+    
+    // Run animation when results are updated
+    const originalUpdateResults = window.updateResults || function() {};
+    window.updateResults = function(data) {
+        originalUpdateResults(data);
+        animateResults();
+    };
+    
+    // On first load, animate results after a short delay
+    setTimeout(animateResults, 500);
+    
+    // Add smooth scroll behavior for better UX
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+    
+    // Enhance form fields with better feedback
+    document.querySelectorAll('input, select').forEach(input => {
+        input.addEventListener('focus', () => {
+            input.parentElement.classList.add('focused');
+        });
+        
+        input.addEventListener('blur', () => {
+            input.parentElement.classList.remove('focused');
+        });
+    });
 });
