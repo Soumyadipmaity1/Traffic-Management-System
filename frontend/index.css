@@ -1,0 +1,526 @@
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+:root {
+    --primary: #3498db;
+    --primary-dark: #2980b9;
+    --secondary: #2ecc71;
+    --danger: #e74c3c;
+    --warning: #f39c12;
+    --dark: #34495e;
+    --light: #ecf0f1;
+    --gray: #95a5a6;
+    --white: #ffffff;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --radius: 8px;
+}
+
+body {
+    background-color: #f4f7f9;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Header Styles */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+    border-bottom: 1px solid #e1e8ed;
+    margin-bottom: 30px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--primary);
+}
+
+.logo i {
+    font-size: 28px;
+}
+
+.logo h1 {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.btn-login {
+    background-color: var(--primary);
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.btn-login:hover {
+    background-color: var(--primary-dark);
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: var(--white);
+    padding: 30px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    width: 100%;
+    max-width: 400px;
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--gray);
+}
+
+/* Main Content Styles */
+main {
+    margin-bottom: 40px;
+}
+
+section {
+    background-color: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 25px;
+    margin-bottom: 30px;
+}
+
+section h2 {
+    color: var(--dark);
+    margin-bottom: 20px;
+    font-weight: 600;
+    font-size: 22px;
+}
+
+/* Tabs Styles */
+.tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e1e8ed;
+    padding-bottom: 10px;
+}
+
+.tab-btn {
+    padding: 10px 20px;
+    background: none;
+    border: none;
+    border-radius: var(--radius) var(--radius) 0 0;
+    cursor: pointer;
+    font-weight: 500;
+    color: var(--gray);
+    transition: all 0.3s;
+}
+
+.tab-btn.active {
+    color: var(--primary);
+    background-color: rgba(52, 152, 219, 0.1);
+    border-bottom: 2px solid var(--primary);
+}
+
+.tab-pane {
+    display: none;
+    animation: fadeIn 0.5s;
+}
+
+.tab-pane.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Camera Tab Styles */
+.camera-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.video-feed {
+    background-color: #000;
+    border-radius: var(--radius);
+    width: 100%;
+    aspect-ratio: 16/9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.video-feed img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.camera-controls {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.btn-control {
+    padding: 10px 20px;
+    background-color: var(--dark);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.3s;
+}
+
+.btn-control:hover {
+    background-color: #2c3e50;
+}
+
+/* Upload Tab Styles */
+.dropzone {
+    border: 2px dashed var(--gray);
+    border-radius: var(--radius);
+    padding: 40px;
+    text-align: center;
+    cursor: pointer;
+    color: var(--gray);
+    transition: all 0.3s;
+}
+
+.dropzone:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.dropzone i {
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+.dropzone input {
+    display: none;
+}
+
+.file-list {
+    margin-top: 20px;
+}
+
+/* Manual Entry Tab Styles */
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--dark);
+}
+
+input, select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #dcdfe6;
+    border-radius: var(--radius);
+    font-size: 14px;
+    transition: border-color 0.3s;
+}
+
+input:focus, select:focus {
+    border-color: var(--primary);
+    outline: none;
+}
+
+.vehicle-counts {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 15px;
+}
+
+.vehicle-type {
+    margin-bottom: 15px;
+}
+
+/* Common Inputs Styles */
+.common-inputs {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #e1e8ed;
+}
+
+.btn-location {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--primary);
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.form-group:has(#location) {
+    position: relative;
+}
+
+.btn-submit {
+    background-color: var(--secondary);
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+}
+
+.btn-submit:hover {
+    background-color: #27ae60;
+}
+
+/* Results Section Styles */
+.results-section {
+    display: block;
+}
+
+.results-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.result-card {
+    background-color: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    border-top: 3px solid var(--primary);
+}
+
+.result-card.alert {
+    border-color: var(--danger);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px;
+    background-color: rgba(240, 242, 245, 0.5);
+}
+
+.card-header i {
+    font-size: 18px;
+    color: var(--primary);
+}
+
+.result-card.alert .card-header i {
+    color: var(--danger);
+}
+
+.card-header h3 {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.card-content {
+    padding: 15px;
+}
+
+/* Risk Meter Styles */
+.risk-meter {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.meter-bar {
+    height: 8px;
+    background-color: #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.meter-fill {
+    height: 100%;
+    background: linear-gradient(to right, var(--secondary), var(--warning), var(--danger));
+    border-radius: 4px;
+}
+
+.risk-value {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--dark);
+}
+
+.risk-status {
+    color: var(--warning);
+    font-weight: 600;
+    text-align: center;
+}
+
+/* Vehicle Count Styles */
+.vehicle-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.vehicle-stat {
+    display: flex;
+    justify-content: space-between;
+}
+
+.total {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px dashed #e1e8ed;
+    margin-top: 8px;
+    padding-top: 8px;
+    font-weight: 600;
+}
+
+/* Speed Gauge Styles */
+.speed-gauge {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.gauge-value {
+    font-size: 36px;
+    font-weight: bold;
+    color: var(--primary);
+}
+
+.gauge-unit {
+    font-size: 14px;
+    color: var(--gray);
+}
+
+/* Alert Styles */
+.alert-status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.alert-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--danger);
+    color: white;
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.alert-text {
+    color: var(--danger);
+    font-weight: 600;
+    font-size: 18px;
+}
+
+/* Footer Styles */
+footer {
+    text-align: center;
+    padding: 20px 0;
+    color: var(--gray);
+    font-size: 14px;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .logo h1 {
+        font-size: 20px;
+    }
+    
+    .results-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .tabs {
+        overflow-x: auto;
+        padding-bottom: 5px;
+    }
+    
+    .tab-btn {
+        white-space: nowrap;
+    }
+    
+    .vehicle-counts {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .vehicle-counts {
+        grid-template-columns: 1fr;
+    }
+    
+    .camera-controls {
+        flex-direction: column;
+    }
+    
+    .btn-control {
+        width: 100%;
+        justify-content: center;
+    }
+}
