@@ -1,9 +1,232 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Traffic System</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traffic Management System</title>
+    <link rel="stylesheet" href="index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <h1>Frontend Placeholder</h1>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <i class="fas fa-traffic-light"></i>
+                <h1>Traffic Management System</h1>
+            </div>
+            <div class="user-area">
+                <button id="loginBtn" class="btn-login">Login <i class="fas fa-sign-in-alt"></i></button>
+            </div>
+        </header>
+
+        <!-- Login Modal -->
+        <div id="loginModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>User Login</h2>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" required>
+                    </div>
+                    <button type="submit" class="btn-submit">Login</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <main>
+            <section class="input-section">
+                <h2>Traffic Data Input</h2>
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="liveCamera">Live Camera</button>
+                    <button class="tab-btn" data-tab="fileUpload">Upload File</button>
+                    <button class="tab-btn" data-tab="manualEntry">Manual Entry</button>
+                </div>
+                
+                <!-- Tab Content -->
+                <div class="tab-content">
+                    <!-- Live Camera Tab -->
+                    <div id="liveCamera" class="tab-pane active">
+                        <div class="camera-container">
+                            <div class="video-feed">
+                                <img src="camera-placeholder.jpg" alt="Camera Feed" id="cameraFeed">
+                            </div>
+                            <div class="camera-controls">
+                                <button class="btn-control" id="startCamera"><i class="fas fa-video"></i> Start Camera</button>
+                                <button class="btn-control" id="captureImage"><i class="fas fa-camera"></i> Capture</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- File Upload Tab -->
+                    <div id="fileUpload" class="tab-pane">
+                        <div class="upload-container">
+                            <div class="dropzone">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>Drag & Drop files here or click to browse</p>
+                                <input type="file" id="fileInput" accept="image/*,video/*" multiple>
+                            </div>
+                            <div class="file-list" id="uploadedFiles">
+                                <!-- Files will appear here -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Manual Entry Tab -->
+                    <div id="manualEntry" class="tab-pane">
+                        <form id="manualEntryForm">
+                            <div class="form-group">
+                                <label for="vehicleCount">Total Vehicles</label>
+                                <input type="number" id="vehicleCount" placeholder="Enter total number of vehicles">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Vehicle Types</label>
+                                <div class="vehicle-counts">
+                                    <div class="vehicle-type">
+                                        <label for="carCount">Cars</label>
+                                        <input type="number" id="carCount" placeholder="0">
+                                    </div>
+                                    <div class="vehicle-type">
+                                        <label for="truckCount">Trucks</label>
+                                        <input type="number" id="truckCount" placeholder="0">
+                                    </div>
+                                    <div class="vehicle-type">
+                                        <label for="busCount">Buses</label>
+                                        <input type="number" id="busCount" placeholder="0">
+                                    </div>
+                                    <div class="vehicle-type">
+                                        <label for="bikeCount">Motorcycles</label>
+                                        <input type="number" id="bikeCount" placeholder="0">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="avgSpeed">Average Speed (km/h)</label>
+                                <input type="number" id="avgSpeed" placeholder="Enter average speed">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="trafficDensity">Traffic Density</label>
+                                <select id="trafficDensity">
+                                    <option value="low">Low</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="high">High</option>
+                                    <option value="veryhigh">Very High</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- Common Inputs for All Tabs -->
+                <div class="common-inputs">
+                    <div class="form-group">
+                        <label for="location">Location</label>
+                        <input type="text" id="location" placeholder="Enter location or use current">
+                        <button class="btn-location"><i class="fas fa-map-marker-alt"></i></button>
+                    </div>
+                    
+                    <button class="btn-submit" id="analyzeBtn">Analyze Traffic <i class="fas fa-chart-line"></i></button>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section class="results-section" id="resultsSection">
+                <h2>Traffic Analysis Results</h2>
+                <div class="results-container">
+                    <div class="result-card" id="accidentRisk">
+                        <div class="card-header">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <h3>Accident Risk Score</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="risk-meter">
+                                <div class="meter-bar">
+                                    <div class="meter-fill" style="width: 65%;"></div>
+                                </div>
+                                <span class="risk-value">65%</span>
+                            </div>
+                            <p class="risk-status">Moderate Risk</p>
+                        </div>
+                    </div>
+                    
+                    <div class="result-card" id="vehicleCount">
+                        <div class="card-header">
+                            <i class="fas fa-car"></i>
+                            <h3>Vehicle Count</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="vehicle-stats">
+                                <div class="vehicle-stat">
+                                    <span class="vehicle-type">Cars</span>
+                                    <span class="count">24</span>
+                                </div>
+                                <div class="vehicle-stat">
+                                    <span class="vehicle-type">Trucks</span>
+                                    <span class="count">5</span>
+                                </div>
+                                <div class="vehicle-stat">
+                                    <span class="vehicle-type">Buses</span>
+                                    <span class="count">2</span>
+                                </div>
+                                <div class="vehicle-stat">
+                                    <span class="vehicle-type">Motorcycles</span>
+                                    <span class="count">8</span>
+                                </div>
+                                <div class="total">
+                                    <span>Total</span>
+                                    <span>39</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="result-card" id="speedEstimation">
+                        <div class="card-header">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <h3>Speed Estimation</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="speed-gauge">
+                                <div class="gauge-value">48</div>
+                                <div class="gauge-unit">km/h</div>
+                            </div>
+                            <p>Average traffic speed is below limit</p>
+                        </div>
+                    </div>
+                    
+                    <div class="result-card alert" id="stopAlert">
+                        <div class="card-header">
+                            <i class="fas fa-hand-paper"></i>
+                            <h3>STOP Alert</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="alert-status">
+                                <span class="alert-icon">!</span>
+                                <span class="alert-text">Congestion Detected</span>
+                            </div>
+                            <p>Traffic flow restriction recommended at Junction 4</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2025 Traffic Management System. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="index.js"></script>
 </body>
 </html>
